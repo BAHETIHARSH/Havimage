@@ -12,6 +12,9 @@ from .models import UploadedImage
 import qrcode
 import io
 import base64
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 def upload_image(request):
     if request.method == 'POST':
@@ -23,9 +26,9 @@ def upload_image(request):
         form = ImageUploadForm()
     return render(request, 'upload_image.html', {'form': form})
 
-from django.core.paginator import Paginator
-from django.db.models import Q
 
+
+@login_required
 def image_list(request):
     query = request.GET.get('q', '')
     filter_by = request.GET.get('filter', '')
