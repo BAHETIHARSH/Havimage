@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+@login_required
 def upload_image(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
@@ -55,7 +56,7 @@ def image_list(request):
     page_obj = paginator.get_page(page_number)
     print(page_obj)
     return render(request, 'image_list.html', {'page_obj': page_obj, 'query': query, 'filter_by': filter_by})
-
+@login_required
 def image_detail(request, pk):
     image = get_object_or_404(UploadedImage, pk=pk)
 
@@ -78,6 +79,7 @@ def image_detail(request, pk):
 
 
 
+@login_required
 def edit_image(request, pk):
     image = get_object_or_404(UploadedImage, pk=pk)
     if request.method == 'POST':
@@ -89,6 +91,7 @@ def edit_image(request, pk):
         form = ImageEditForm(instance=image)
     return render(request, 'edit_image.html', {'form': form, 'image': image})
 
+@login_required
 def delete_image(request, pk):
     image = get_object_or_404(UploadedImage, pk=pk)
     if request.method == 'POST':
@@ -98,53 +101,10 @@ def delete_image(request, pk):
 
 
 
-# def download_image_with_details(request, pk):
-#     obj = get_object_or_404(UploadedImage, pk=pk)
-
-#     # Load the original image
-#     img_path = obj.image.path
-#     original_img = Image.open(img_path).convert("RGB")
-
-#     # Generate QR Code (ID only)
-#     qr = qrcode.QRCode(box_size=10, border=2)
-#     qr.add_data(str(obj.id))
-#     qr.make(fit=True)
-#     qr_img = qr.make_image(fill_color="black", back_color="white")
-
-#     # Create a new image (white background)
-#     width = original_img.width + 400
-#     height = max(original_img.height, 300)
-#     new_img = Image.new("RGB", (width, height), "white")
-
-#     # Paste original image
-#     new_img.paste(original_img, (0, 0))
-
-#     # Paste QR code on right side
-#     qr_img = qr_img.resize((200, 200))
-#     new_img.paste(qr_img, (original_img.width + 100, 50))
-
-#     # Draw text (ID, Name, Date)
-#     draw = ImageDraw.Draw(new_img)
-#     font = ImageFont.load_default()
-#     text_x = original_img.width + 50
-#     text_y = 270
-
-#     draw.text((text_x, text_y), f"ID: {obj.id}", fill="black", font=font)
-#     draw.text((text_x, text_y + 20), f"Name: {obj.title or 'N/A'}", fill="black", font=font)
-#     draw.text((text_x, text_y + 40), f"Date: {obj.uploaded_at.strftime('%Y-%m-%d')}", fill="black", font=font)
-
-#     # Save to buffer
-#     buffer = io.BytesIO()
-#     new_img.save(buffer, format="JPEG")
-#     buffer.seek(0)
-
-#     # Return response
-#     response = HttpResponse(buffer, content_type="image/jpeg")
-#     response['Content-Disposition'] = f'attachment; filename="image_{obj.id}.jpg"'
-#     return response
 
 
 
+@login_required
 def download_image(request, pk):
     image_obj = get_object_or_404(UploadedImage, pk=pk)
 

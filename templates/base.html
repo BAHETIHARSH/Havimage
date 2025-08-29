@@ -6,10 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Photo App{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-gray-900 text-white font-sans">
-    <div class="container mx-auto">
+<body class="bg-gray-100 text-gray-800 font-sans">
+    {% if user.is_authenticated %}
+    <div class="fixed top-4 right-4 z-50">
+        <a href="{% url 'logout' %}"
+            class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+            </svg>
+            Logout
+        </a>
+    </div>
+    {% endif %}
+
+
+    <!-- Main Container -->
+    <div class="container mx-auto ">
         {% block content %}{% endblock %}
     </div>
 </body>
