@@ -50,13 +50,11 @@ def image_list(request):
                 Q(phone__icontains=query) |
                 Q(details__icontains=query)
             )
-    print(images)
-    # paginator = Paginator(images, 6)  # 6 items per page
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
-
-    return render(request, 'image_list.html', {'images': images})
-
+    paginator = Paginator(images, 6)  # 6 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    print(page_obj)
+    return render(request, 'image_list.html', {'page_obj': page_obj, 'query': query, 'filter_by': filter_by})
 
 def image_detail(request, pk):
     image = get_object_or_404(UploadedImage, pk=pk)
