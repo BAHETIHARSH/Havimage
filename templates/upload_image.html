@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Upload Photo{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-4 text-center text-yellow-400">Upload Your Photo</h1>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <div class="space-y-2">
+            {{ form.image.label_tag }}
+            {% render_field form.image class+="w-full p-2 bg-gray-700 rounded text-white" %}
+        </div>
+
+        <div class="space-y-2">
+            {{ form.title.label_tag }}
+            {% render_field form.title class+="w-full p-2 bg-gray-700 rounded text-white" placeholder="(Optional)" %}
+        </div>
+
+        <div class="space-y-2">
+            {{ form.details.label_tag }}
+            {% render_field form.details class+="w-full p-2 bg-gray-700 rounded text-white" placeholder="(Optional)" %}
+        </div>
+
+        <div class="space-y-2">
+            {{ form.phone.label_tag }}
+            {% render_field form.phone class+="w-full p-2 bg-gray-700 rounded text-white" placeholder="(Optional)" %}
+        </div>
+
+        <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded ">
+            Upload Photo
+        </button>
+    </form>
+</div>
+<div class="text-center mt-6">
+    <a href="{% url 'image_list' %}" class="text-yellow-400 hover:text-yellow-300">View Gallery →</a>
+</div>
+{% endblock %}

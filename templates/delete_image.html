@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Delete Photo{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+    <h1 class="text-2xl font-bold text-red-500 mb-4">Delete This Photo?</h1>
+    <p class="mb-6 text-gray-300">Are you sure you want to delete <strong>{{ image.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded">
+            Yes, Delete
+        </button>
+        <a href="{% url 'image_detail' image.pk %}" class="ml-4 text-yellow-400 hover:text-yellow-300">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}

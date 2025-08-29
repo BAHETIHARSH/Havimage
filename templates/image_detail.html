@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ image.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+    <!-- Image Title -->
+    <h1 class="text-3xl font-bold text-yellow-400 mb-4">{{ image.title }}</h1>
+
+    <!-- Image Preview -->
+    <img src="{{ image.image.url }}" alt="{{ image.title }}" class="w-full max-h-[80vh] object-contain rounded mb-6">
+
+    <!-- Image Details -->
+    <div class="text-left text-gray-300 mb-6">
+        <p><strong>Title:</strong> {{ image.title|default:"Not added" }}</p>
+        <p><strong>Details:</strong> {{ image.details|default:"No details provided" }}</p>
+        <p><strong>Phone:</strong> {{ image.phone|default:"Not provided" }}</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap justify-center gap-4 mb-4">
+        <a href="{{ image.image.url }}" download
+            class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded">
+            Download
+        </a>
+        <a href="{% url 'edit_image' image.pk %}"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+            Edit
+        </a>
+        <a href="{% url 'delete_image' image.pk %}"
+            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded">
+            Delete
+        </a>
+        <button onclick="window.print()"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded">
+            Print
+        </button>
+        <a href="{% url 'download_image' image.pk %}" download
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+            Download Image with Details
+        </a>
+    </div>
+
+    <!-- Back to Gallery -->
+    <a href="{% url 'image_list' %}" class="text-yellow-400 hover:text-yellow-300">
+        ← Back to Gallery
+    </a>
+</div>
+
+<!-- Hidden Print Layout -->
+<div class="print-area hidden">
+    <div>
+        <img src="{{ image.image.url }}" alt="{{ image.title }}" class="print-img">
+    </div>
+    <div class="print-info">
+        <p><strong>ID:</strong> {{ image.id }}</p>
+        <p><strong>Name:</strong> {{ image.name|default:"Not added" }}</p>
+        <p><strong>Phone:</strong> {{ image.phone|default:"Not provided" }}</p>
+    </div>
+    <div class="print-qr">
+        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+    </div>
+</div>
+
+<!-- Print Styles -->
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .print-area,
+        .print-area * {
+            visibility: visible;
+            background: url("{% static 'images/cover_8.jpg' %}") no-repeat center center;
+            background-size: cover;
+
+        }
+
+        .print-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .print-img {
+            max-width: 100px;
+            max-height: 300px;
+        }
+
+        .print-info {
+            font-size: 18px;
+            color: #000;
+        }
+
+        .print-qr img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+</style>
+{% endblock %}

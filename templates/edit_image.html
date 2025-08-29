@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Edit Photo{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-4 text-center text-yellow-400">Edit Photo Info</h1>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }}
+            {% render_field field class+="w-full p-2 bg-gray-700 rounded text-white" %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded">
+            Save Changes
+        </button>
+    </form>
+</div>
+<div class="text-center mt-6">
+    <a href="{% url 'image_detail' image.pk %}" class="text-yellow-400 hover:text-yellow-300">Back to Photo</a>
+</div>
+{% endblock %}
